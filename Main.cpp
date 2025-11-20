@@ -23,15 +23,7 @@ constexpr size_t MemberAlignment = 64;
 typedef uint8_t DataType;
 
 //const uint64_t Steps = 1'000'000'000;
-const uint64_t Steps = 10'000'000;
-
-const uint8_t MaxSharedDataCount = 16;
-
-struct AlignAsPacked SingleCacheLineSharedData
-{
-public:
-	DataType Data[MaxSharedDataCount];
-};
+const uint64_t Steps = 100'000'000;
 
 struct AlignAsPacked MultiCacheLineSharedData
 {
@@ -52,6 +44,30 @@ public:
 	AlignAsUnpacked DataType Data14;
 	AlignAsUnpacked DataType Data15;
 	AlignAsUnpacked DataType Data16;
+	AlignAsUnpacked DataType Data17;
+	AlignAsUnpacked DataType Data18;
+	AlignAsUnpacked DataType Data19;
+	AlignAsUnpacked DataType Data20;
+	AlignAsUnpacked DataType Data21;
+	AlignAsUnpacked DataType Data22;
+	AlignAsUnpacked DataType Data23;
+	AlignAsUnpacked DataType Data24;
+	AlignAsUnpacked DataType Data25;
+	AlignAsUnpacked DataType Data26;
+	AlignAsUnpacked DataType Data27;
+	AlignAsUnpacked DataType Data28;
+	AlignAsUnpacked DataType Data29;
+	AlignAsUnpacked DataType Data30;
+	AlignAsUnpacked DataType Data31;
+	AlignAsUnpacked DataType Data32;
+};
+
+const uint8_t MaxSharedDataCount = sizeof(MultiCacheLineSharedData) / MemberAlignment;
+
+struct AlignAsPacked SingleCacheLineSharedData
+{
+public:
+	DataType Data[MaxSharedDataCount];
 };
 
 nanoseconds Run(DataType* volatile* Data)
@@ -109,6 +125,7 @@ int main()
 
 
 	MultiCacheLineSharedData multiCacheLineSharedData = {};
+	multiCacheLineSharedData.Data1 = 100;
 	DataType* multiCacheLineSharedDataPtr[MaxSharedDataCount];
 	for (uint8_t i = 0; i < MaxSharedDataCount; ++i)
 		multiCacheLineSharedDataPtr[i] = &multiCacheLineSharedData.Data1 + (i * MemberAlignment);
